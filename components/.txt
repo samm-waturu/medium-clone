@@ -1,0 +1,42 @@
+export async function getStaticProps(params) {
+  const query = `
+  *[_type == 'post' && slug.current == $slug] [0] {
+  _id,
+  _createdAt,
+    title,
+    mainImage,
+    body,
+    'comments': *[
+    _type == 'comment' && post._ref == ^._id && approved == true],
+     author -> {
+        name,image
+      },
+    slug,
+    description,
+}`
+  const post = await getPosts(query, undefined).then(() => {
+    slug: params?.slug
+  })
+
+
+
+  const linkDir = () => {
+    if(!post) {
+      return notFound()
+    }
+    props: {
+      post
+    }
+  }
+}
+
+ block: {
+    h1: ({children}) => <h1 className={'text-2xl font-bold my-5'}> {children} </h1>
+    ,
+    h2: ({children}) => <h2 className={'text-xl font-bold my-5'}> {children} </h2>
+    ,
+    p: ({children}) => <p className={'text-xs font-bold my-5'}> {children} </p>
+    ,
+    li: ({children}) => <li className={'ml-4 list-disc'}> {children} </li>
+
+  }
