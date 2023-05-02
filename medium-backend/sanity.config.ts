@@ -6,7 +6,6 @@ import {schemaTypes} from './schemas'
 export default defineConfig({
   name: 'default',
   title: 'medium-backend',
-
   projectId: '2c4clazm',
   dataset: 'production',
 
