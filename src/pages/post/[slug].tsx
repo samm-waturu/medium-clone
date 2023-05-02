@@ -4,16 +4,12 @@ import {notFound} from 'next/navigation'
 import {GetStaticPaths, GetStaticProps} from 'next'
 import {GroQL, urlFor} from '../../../sanity'
 import {Resolver, useForm, SubmitHandler} from 'react-hook-form'
+import {PortableTextComponents} from '@portabletext/react'
 import Image from 'next/image'
 import {PortableText} from '@portabletext/react'
 import {JSXElementConstructor, Key, ReactElement, ReactFragment, ReactNode, ReactPortal, useState} from 'react'
 import comment from '../../../medium-backend/schemas/comment'
 
-interface ChildProps {
-  children: any
-  value: any
-  alt: string
-}
 
 function PostedContent({post}: CurrentPost) {
 
@@ -21,13 +17,14 @@ function PostedContent({post}: CurrentPost) {
 
   const [submitted, setSumbitted] = useState<any>(false)
 
+
   // @ts-ignore
-  const components = {
+  const components : PortableTextComponents = {
     marks: {
       // Ex. 1: custom renderer for the em / italics decorator
-      em: ({children}  : ChildProps) => <em className='text-gray-600 font-medium '>{children}</em>,
-      strong: ({children} : ChildProps) => <strong className={'text-gray-600'}> {children} </strong>,
-      link: ({children, value} : ChildProps) => {
+      em: ({children} ) => <em className='text-gray-600 font-medium '>{children}</em>,
+      strong: ({children}) => <strong className={'text-gray-600'}> {children} </strong>,
+      link: ({children, value}) => {
         const rel = !value.href.startsWith('/') ? 'noreferrer noopener' : undefined
         return (
           <a href={value.href} className={'text-blue-500 hover:underline text-blue-500 transition ease-in-out'}
@@ -40,28 +37,27 @@ function PostedContent({post}: CurrentPost) {
       // Ex. 2: rendering a custom `link` annotation
     },
     types: {
-      image: ({value, alt}: ChildProps) => {
+      image: ({value}) => {
         value = value.asset
-        alt = value.alt
         return (
-          <img src={urlFor(value).url()} alt={alt || 'Image'}  />
+          <img src={urlFor(value).url()} alt={post.description}  />
         )
       }
     },
     block: {
-      h1: ({children} : ChildProps) => <h1 className={'font-bold my-4'} style={{fontSize: 36}}>{children}</h1>,
-      h2: ({children} : ChildProps) => <h2 className={'font-bold my-4'} style={{fontSize: 32}}>{children}</h2>,
-      h3: ({children} : ChildProps) => <h3 className={'font-bold my-4'} style={{fontSize: 28}}>{children}</h3>,
-      h4: ({children} : ChildProps) => <h4 className={'font-bold my-4'} style={{fontSize: 24}}>{children}</h4>,
-      normal: ({children} : ChildProps) => <p className={'font-normal my-4'} style={{fontSize: 16}}>{children}</p>
+      h1: ({children}) => <h1 className={'font-bold my-4'} style={{fontSize: 36}}>{children}</h1>,
+      h2: ({children}) => <h2 className={'font-bold my-4'} style={{fontSize: 32}}>{children}</h2>,
+      h3: ({children}) => <h3 className={'font-bold my-4'} style={{fontSize: 28}}>{children}</h3>,
+      h4: ({children}) => <h4 className={'font-bold my-4'} style={{fontSize: 24}}>{children}</h4>,
+      normal: ({children}) => <p className={'font-normal my-4'} style={{fontSize: 16}}>{children}</p>
     },
     list: {
       // Ex. 1: customizing common list types
-      bullet: ({children} : ChildProps) => <ul className='list-disc  ml-10'>{children}</ul>
+      bullet: ({children}) => <ul className='list-disc  ml-10'>{children}</ul>
     },
     listItem: {
-      bullet: ({children} : ChildProps) => <li className={'font-normal my-2'} style={{fontSize: 14}}>{children}</li>,
-      number: ({children} : ChildProps) => <ol className={'font-normal my-2'} style={{fontSize: 14}}>{children}</ol>
+      bullet: ({children}) => <li className={'font-normal my-2'} style={{fontSize: 14}}>{children}</li>,
+      number: ({children}) => <ol className={'font-normal my-2'} style={{fontSize: 14}}>{children}</ol>
     }
 
   }
