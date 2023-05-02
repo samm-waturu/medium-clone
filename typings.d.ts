@@ -25,6 +25,7 @@ export interface Post {
 
 export interface CurrentPost {
   post: {
+    post: TypedObject;
     _id: string;
     title: string;
     description: string;
@@ -38,7 +39,7 @@ export interface CurrentPost {
       }
     }
     _createdAt: string
-    body: [object]
+    body: [any]
     comments: [Comment]
   }
 }

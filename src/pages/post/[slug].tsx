@@ -110,8 +110,7 @@ function PostedContent({post}: CurrentPost) {
         </div>
 
         <div className={'p-2 mt-4'}>
-          <PortableText value={post.body} components={components}
-          />
+          <PortableText value={post.body} components={components} onMissingComponent={false} />
         </div>
       </article>
 
