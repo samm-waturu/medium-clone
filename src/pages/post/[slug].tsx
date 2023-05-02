@@ -239,7 +239,7 @@ export const getStaticProps: GetStaticProps = async (
     props: {
       post
     },
-    revalidate: 10 //re-cache the page ISR
+    revalidate: 25 //re-cache the page ISR
   }
 
 
