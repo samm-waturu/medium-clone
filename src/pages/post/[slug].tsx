@@ -10,7 +10,7 @@ import {JSXElementConstructor, Key, ReactElement, ReactFragment, ReactNode, Reac
 import comment from '../../../medium-backend/schemas/comment'
 
 interface ChildProps {
-  children: ReactNode
+  children: any
   value: any
   alt: string
 }
@@ -44,7 +44,7 @@ function PostedContent({post}: CurrentPost) {
         value = value.asset
         alt = value.alt
         return (
-          <Image src={urlFor(value).url()} alt={alt || 'Image'} width={'512'} height={512} />
+          <img src={urlFor(value).url()} alt={alt || 'Image'}  />
         )
       }
     },
