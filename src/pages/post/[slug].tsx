@@ -19,10 +19,10 @@ function PostedContent({post}: CurrentPost) {
 
 
   // @ts-ignore
-  const components : PortableTextComponents = {
+  const components: PortableTextComponents = {
     marks: {
       // Ex. 1: custom renderer for the em / italics decorator
-      em: ({children} ) => <em className='text-gray-600 font-medium '>{children}</em>,
+      em: ({children}) => <em className='text-gray-600 font-medium '>{children}</em>,
       strong: ({children}) => <strong className={'text-gray-600'}> {children} </strong>,
       link: ({children, value}) => {
         const rel = !value.href.startsWith('/') ? 'noreferrer noopener' : undefined
@@ -40,7 +40,7 @@ function PostedContent({post}: CurrentPost) {
       image: ({value}) => {
         value = value.asset
         return (
-          <img src={urlFor(value).url()} alt={post.description}  />
+          <img src={urlFor(value).url()} alt={post.description} />
         )
       }
     },
@@ -179,7 +179,7 @@ function PostedContent({post}: CurrentPost) {
 
             <hr className={'pb-2'} />
 
-            {post.comments.map((comment: { _id: Key | null | undefined; name: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; comment: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined }) => (
+            {post.comments.map((comment: {_id: Key | null | undefined; name: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; comment: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined}) => (
                 <div key={comment._id}>
                   <p className={'font-normal py-2'}>
                     <span className={'text-yellow-500 font-bold'}> {comment.name}: </span>&nbsp;{comment.comment}</p>
@@ -212,16 +212,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
   }))
   // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return {paths, fallback: false}
+  //{fallback: false } means other routes should 404.
+  //{fallback: true} means dynamism is at core
+  return {paths, fallback: true}
 
 }
-
 
 export const getStaticProps: GetStaticProps = async (
   {params}
 ) => {
-
 
   const query = `
   *[_type == 'post' && slug.current == $slug] [0] {
@@ -240,7 +239,7 @@ export const getStaticProps: GetStaticProps = async (
     props: {
       post
     },
-    revalidate: 60 //re-cache the page ISR
+    revalidate: 10 //re-cache the page ISR
   }
 
 
